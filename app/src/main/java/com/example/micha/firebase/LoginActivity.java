@@ -9,6 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -23,16 +29,30 @@ public class LoginActivity extends AppCompatActivity implements LoginAuthenticat
     String email;
     String pass;
     private String TAG = LoginActivity.class.getSimpleName();
+    public static final int GOOGLE_RC = 15;
     LoginAuthenticator loginAuthenticator;
     FirebaseUser currentUser;
+    private GoogleSignInClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginAuthenticator = new LoginAuthenticator(this);
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.fire_key)).requestEmail().build();
+        mClient = GoogleSignIn.getClient(this, options);
         user = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        SignInButton button = findViewById(R.id.google);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "google: button hit");
+                Intent signIn = mClient.getSignInIntent();
+                startActivityForResult(signIn,GOOGLE_RC);
+            }
+        });
     }
 
     public void initCredentials(){
@@ -88,5 +108,19 @@ public class LoginActivity extends AppCompatActivity implements LoginAuthenticat
     @Override
     public void onUserSignOut(boolean isSignedOut) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == GOOGLE_RC){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                loginAuthenticator.google(account);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

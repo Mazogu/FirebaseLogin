@@ -29,6 +29,10 @@
         android:text="Create New User"
         android:id="@+id/create"
         android:onClick="onAuthenticateUser"/>
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/google" />
 
 
 </LinearLayout>
