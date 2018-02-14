@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FireBase</string>
     <string name="fire_key">894411935145-37t4j15kj7chh5i4e4skeh83veemf0c2.apps.googleusercontent.com</string>
+    <string name="facebook_key">2045272922381802</string>
 </resources>
