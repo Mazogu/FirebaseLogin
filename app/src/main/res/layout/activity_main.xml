@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.example.micha.firebase.LoginActivity">
+    tools:context="com.example.micha.firebase.view.LoginActivity">
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +16,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/password"
         android:hint="Password"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone"
+        android:hint="Phone Number"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +41,17 @@
     <com.facebook.login.widget.LoginButton
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/facebook"/>
+        android:id="@+id/facebook"
+        android:layout_marginBottom="10dp"/>
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/twitter"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="use phone"
+        android:onClick="startPhoneVerify"/>
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.micha.firebase;
+package com.example.micha.firebase.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.micha.firebase.utils.FirebaseDB;
+import com.example.micha.firebase.utils.LoginAuthenticator;
+import com.example.micha.firebase.R;
 import com.example.micha.firebase.model.Movie;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

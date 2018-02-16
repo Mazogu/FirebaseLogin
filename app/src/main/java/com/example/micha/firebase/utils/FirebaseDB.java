@@ -1,4 +1,4 @@
-package com.example.micha.firebase;
+package com.example.micha.firebase.utils;
 
 import android.util.Log;
 

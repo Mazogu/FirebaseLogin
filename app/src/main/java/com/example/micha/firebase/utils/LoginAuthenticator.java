@@ -1,4 +1,4 @@
-package com.example.micha.firebase;
+package com.example.micha.firebase.utils;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -12,14 +12,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import javax.security.auth.callback.Callback;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.TwitterAuthCredential;
+import com.google.firebase.auth.TwitterAuthProvider;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by micha on 2/13/2018.
@@ -141,6 +143,30 @@ public class LoginAuthenticator {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void twitter(Result<TwitterSession> result) {
+        AuthCredential credential = TwitterAuthProvider.getCredential(result.data.getAuthToken().token,
+                result.data.getAuthToken().secret);
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                firebaseUser = firebaseAuth.getCurrentUser();
+                listener.onUserAuthenticated(firebaseUser);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
+    public void phone(PhoneAuthCredential phoneAuthCredential) {
+        firebaseAuth.signInWithCredential(phoneAuthCredential);
+        firebaseUser = firebaseAuth.getCurrentUser();
+        listener.onUserAuthenticated(firebaseUser);
     }
 
     public interface onLoginInteraction{
